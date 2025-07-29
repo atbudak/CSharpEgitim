@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -101,17 +102,107 @@ namespace _08_Methods
 
             #region Örnek Metod
 
-            string studentResult(string name, string surname, int exam1, int exam2)
+            //string studentResult(string name, string surname, int exam1, int exam2)
+            //{
+            //    double average = (exam1 + exam2) / 2.0;
+            //    string result = average >= 50 ? "Geçti" : "Kaldı";
+            //    return $"Öğrenci: {name} {surname}, Not Ortalaması: {average}, Sonuç: {result}";
+            //}
+
+
+            //Console.WriteLine(studentResult("Ali", "Çınar", 76, 55));
+            //Console.WriteLine(studentResult("Ayşe", "Demir", 45, 60));
+            //Console.WriteLine(studentResult("Mehmet", "Yılmaz", 80, 10));
+
+            #endregion
+
+            #region out-ref Metodlar
+
+            // Example 1
+            //int ageInMonths(ref int age)
+            //{
+            //    // age parametresini referans olarak alır ve ay cinsinden yaşını hesaplar
+            //    return age * 12;
+            //}
+
+            //Console.Write("Yaşınızı giriniz: ");
+            //int result = Convert.ToInt32(Console.ReadLine());
+
+            //Console.WriteLine($"Yaşınız: {ageInMonths(ref result)} aydır.");
+
+            // Example 2
+            //void IlkDegeriUret(out int deger)
+            //{
+            //    deger = 42; // out parametreler mutlaka atanmalıdır!
+            //}
+
+            //// Kullanım
+            //int sonuc;
+            //IlkDegeriUret(out sonuc);
+            //Console.WriteLine(sonuc); // Çıktı: 42
+
+            // Example 3
+
+            //void Degistir(ref int a, ref int b)
+            //{
+            //    int temp = a;
+            //    a = b;
+            //    b = temp;
+            //}
+
+            //// Kullanım
+            //int sayi1 = 5, sayi2 = 10;
+            //Degistir(ref sayi1, ref sayi2);
+            //Console.WriteLine($"sayi1: {sayi1}, sayi2: {sayi2}"); // Çıktı: 10, 5
+
+            // Example 4
+
+            //bool KullaniciGetir(string kullaniciAdi, out string email)
+            //{
+            //    if (kullaniciAdi == "ahmetbudak")
+            //    {
+            //        email = "ahmet@ornek.com";
+            //        return true;
+            //    }
+            //    email = null;
+            //    return false;
+            //}
+
+            //// Kullanım
+            //if (KullaniciGetir("ahmetbudak", out string eposta))
+            //{
+            //    Console.WriteLine("Kullanıcı bulundu: " + eposta);
+            //}
+            //else
+            //{
+            //    Console.WriteLine("Kullanıcı bulunamadı.");
+            //}
+
+            //Değişkenin hem giriş hem çıkış olması gerekiyorsa   ref
+            //Değeri sadece metot içinde üretip döndüreceksen	    out
+            //Try - parse, kullanıcı doğrulama gibi senaryolarda	out
+            //Swap(yer değiştirme) gibi işlemlerde                ref
+
+            // Yeni C# sürümlerinde ref/out yerine tuple da kullanılabilir -->
+
+            (string email, bool bulundu) KullaniciGetir(string kullaniciAdi)
             {
-                double average = (exam1 + exam2) / 2.0;
-                string result = average >= 50 ? "Geçti" : "Kaldı";
-                return $"Öğrenci: {name} {surname}, Not Ortalaması: {average}, Sonuç: {result}";
+                if (kullaniciAdi == "ahmetbudak")
+                    return ("ahmet@ornek.com", true);
+                return (null, false);
             }
 
+            var (eposta, bulunduMu) = KullaniciGetir("ahmetbudak");
 
-            Console.WriteLine(studentResult("Ali", "Çınar", 76, 55));
-            Console.WriteLine(studentResult("Ayşe", "Demir", 45, 60));
-            Console.WriteLine(studentResult("Mehmet", "Yılmaz", 80, 10));
+            if (bulunduMu)
+            {
+                Console.WriteLine("Kullanıcı bulundu: " + eposta);
+            }
+            else
+            {
+                Console.WriteLine("Kullanıcı bulunamadı.");
+            }
+
 
             #endregion
 
